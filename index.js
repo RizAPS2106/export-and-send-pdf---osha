@@ -53,8 +53,9 @@ app.post('/create-pdf', (req,res) => {
     pdf.create(pdfTemplate(req.body), pdfOptions).toFile('result.pdf', (err)=>{
         if(err) {
             res.send(Promise.reject())
-        } 
-        res.send(Promise.resolve())
+        } else {
+            res.send(Promise.resolve())
+        }
     }) 
 })
 
