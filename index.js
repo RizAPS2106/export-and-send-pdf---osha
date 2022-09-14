@@ -60,34 +60,25 @@ let mailOptions = {
 
 // POST PDF generation and fetching of the data
 app.post('/create-pdf', (req,res) => {
-    try {
-        pdf.create(pdfTemplate(req.body), pdfOptions).toFile('result.pdf', (err)=>{
-            if(err) {
-                res.send(Promise.reject())
-            } else {
-                res.send(Promise.resolve())
-            }
-        })
-    }catch(err){
-        next(err)   
-    }  
+    pdf.create(pdfTemplate(req.body), pdfOptions).toFile('result.pdf', (err)=>{
+        if(err) {
+            res.send(Promise.reject())
+        } else {
+            res.send(Promise.resolve())
+        }
+    }) 
 })
 
 // GET Send the generated PDF to the client
 app.get('/fetch-pdf', (req, res) => {
-    try{
-        transporter.sendMail(mailOptions, function(err, info) {
-            if(err) {
-                console.log('Error', err)
-            } else {
-                console.log('Message Sent')
-            }
-        })
-        
-        res.sendFile(`${__dirname}/result.pdf`)
-    }catch(err){
-        next(err)
-    }
+    res.sendFile(`${__dirname}/result.pdf`)
+    transporter.sendMail(mailOptions, function(err, info) {
+        if(err) {
+            console.log('Error', err)
+        } else {
+            console.log('Message Sent')
+        }
+    })
 })
 
 app.get('/', (req, res) => {
