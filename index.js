@@ -11,6 +11,7 @@ const http = require('http')
 const nodemailer = require('nodemailer')
 
 const pdfTemplate = require('./documents')
+const { nextTick } = require('process')
 
 const pdfOptions = {
     "format": "A4",
@@ -59,26 +60,34 @@ let mailOptions = {
 
 // POST PDF generation and fetching of the data
 app.post('/create-pdf', (req,res) => {
-    pdf.create(pdfTemplate(req.body), pdfOptions).toFile('result.pdf', (err)=>{
-        if(err) {
-            res.send(Promise.reject())
-        } else {
-            res.send(Promise.resolve())
-        }
-    })
+    try {
+        pdf.create(pdfTemplate(req.body), pdfOptions).toFile('result.pdf', (err)=>{
+            if(err) {
+                res.send(Promise.reject())
+            } else {
+                res.send(Promise.resolve())
+            }
+        })
+    }catch(err){
+        next(err)   
+    }  
 })
 
 // GET Send the generated PDF to the client
 app.get('/fetch-pdf', (req, res) => {
-    transporter.sendMail(mailOptions, function(err, info) {
-        if(err) {
-            console.log('Error', err)
-        } else {
-            console.log('Message Sent')
-        }
-    })
-    
-    res.sendFile(`${__dirname}/result.pdf`)
+    try{
+        transporter.sendMail(mailOptions, function(err, info) {
+            if(err) {
+                console.log('Error', err)
+            } else {
+                console.log('Message Sent')
+            }
+        })
+        
+        res.sendFile(`${__dirname}/result.pdf`)
+    }catch(err){
+        next(err)
+    }
 })
 
 app.get('/', (req, res) => {

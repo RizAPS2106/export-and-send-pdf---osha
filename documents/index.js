@@ -1,4 +1,4 @@
-module.exports = ({name, email, position, birthPlace, birthDate, gender, status, education, edufrom, eduto, workingexp, workfrom, workto, workingpos, workingdesc, capabilities}) => {
+module.exports = ({name, email, position, birthPlace, birthDate, gender, status, education, edufrom, eduto, workingexp, workfrom, workto, workingpos, workingdesc, capabilities}) => { 
     const today = new Date();
     return `
     <!doctype html>
