@@ -48,28 +48,18 @@ let mailOptions = {
     ]
 }
 
-// transporter.sendMail(mailOptions, function(err, info) {
-//     if(err) {
-//         console.log('Error', err)
-//     } else {
-//         console.log('Message Sent')
-//     }
-// })
-
 // POST PDF generation and fetching of the data
 app.post('/create-pdf', (req,res) => {
     pdf.create(pdfTemplate(req.body), pdfOptions).toFile('result.pdf', (err)=>{
         if(err) {
             res.send(Promise.reject())
         } 
-        
         res.send(Promise.resolve())
     }) 
 })
 
 // GET Send the generated PDF to the client
 app.get('/fetch-pdf', (req, res) => {
-    res.sendFile(`${__dirname}/result.pdf`)
     transporter.sendMail(mailOptions, function(err, info) {
         if(err) {
             console.log('Error', err)
@@ -77,8 +67,10 @@ app.get('/fetch-pdf', (req, res) => {
             console.log('Message Sent')
         }
     })
+    res.sendFile(`${__dirname}/result.pdf`)
 })
 
+// Page
 app.get('/', (req, res) => {
     return res.send(`This is OSHA Technology page server, ${allowed_domains}`)
 })
