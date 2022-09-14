@@ -11,8 +11,6 @@ const http = require('http')
 const nodemailer = require('nodemailer')
 
 const pdfTemplate = require('./documents')
-const { nextTick } = require('process')
-
 const pdfOptions = {
     "format": "A4",
     "footer": {
@@ -63,9 +61,9 @@ app.post('/create-pdf', (req,res) => {
     pdf.create(pdfTemplate(req.body), pdfOptions).toFile('result.pdf', (err)=>{
         if(err) {
             res.send(Promise.reject())
-        } else {
-            res.send(Promise.resolve())
-        }
+        } 
+        
+        res.send(Promise.resolve())
     }) 
 })
 
