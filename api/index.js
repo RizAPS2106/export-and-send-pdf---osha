@@ -63,9 +63,9 @@ app.post('/create-pdf', (req,res,next) => {
 app.get('/fetch-pdf', (req, res) => {
     transporter.sendMail(mailOptions, function(err, info) {
         if(err) {
-            console.log('Error')
+            res.send(console.log('Error'))
         } else {
-            console.log('Message Sent')
+            res.send(console.log('Message Sent'))
         }
     })
     res.sendFile(`${__dirname}/result.pdf`)
