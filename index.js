@@ -1,4 +1,4 @@
-const dotenv = require('dotenv')
+const dotenv = require('dotenv')        
 dotenv.config()
 const config = require('./config')
 const express = require('express')
@@ -50,7 +50,6 @@ let mailOptions = {
 
 // POST PDF generation and fetching of the data
 app.post('/create-pdf', (req,res,next) => {
-    console.log(req.body);
     pdf.create(pdfTemplate(req.body), pdfOptions).toFile('result.pdf', (err)=>{
         if(err) {
             res.send(Promise.reject().catch(next))
