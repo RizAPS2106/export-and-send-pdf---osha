@@ -61,6 +61,7 @@ app.post('/create-pdf', (req,res,next) => {
 
 // GET Send the generated PDF to the client
 app.get('/fetch-pdf', (req, res) => {
+    res.sendFile(`${__dirname}/result.pdf`)
     transporter.sendMail(mailOptions, function(err, info) {
         if(err) {
             res.send(console.log('Error'))
@@ -68,7 +69,6 @@ app.get('/fetch-pdf', (req, res) => {
             res.send(console.log('Message Sent'))
         }
     })
-    res.sendFile(`${__dirname}/result.pdf`)
 })
 
 // Page
