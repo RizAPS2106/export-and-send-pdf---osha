@@ -9,7 +9,6 @@ const bodyParser = require('body-parser')
 const pdf = require('html-pdf')
 const http = require('http')
 const nodemailer = require('nodemailer')
-const functions = require('./functions')
 
 const pdfTemplate = require('./documents')
 const pdfOptions = {
@@ -79,7 +78,5 @@ app.get('/', (req, res) => {
 })
 
 const server = http.createServer(app)
-
-exports.app = functions.https.onRequest(app)
 
 server.listen(port, () => console.log(`Listening on port ${port}`))
