@@ -39,8 +39,6 @@ app.post('/create-pdf', (req,res,next) => {
 
 // GET Send the generated PDF to the client
 app.get('/fetch-pdf', (req, res) => {
-    res.sendFile(`${__dirname}/result.pdf`)
-
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -65,7 +63,7 @@ app.get('/fetch-pdf', (req, res) => {
         if(err) {
             res.send(console.log('Error'))
         } else {
-            res.send(console.log('Message Sent'))
+            res.sendFile(`${__dirname}/result.pdf`)
         }
     })
 })
